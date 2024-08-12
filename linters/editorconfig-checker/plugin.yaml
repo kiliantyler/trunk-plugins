@@ -6,6 +6,7 @@ tools:
     runtime: go
     package: github.com/editorconfig-checker/editorconfig-checker/v3/cmd/editorconfig-checker
     shims: [editorconfig-checker]
+    # TODO: renovate version
     known_good_version: 3.0.3
   enabled:
   - editorconfig-checker@3.0.3

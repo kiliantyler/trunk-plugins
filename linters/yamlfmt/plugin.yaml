@@ -1,0 +1,44 @@
+version: 0.1
+downloads:
+  - name: yamlfmt
+    # TODO: renovate version
+    version: 0.13.0
+    downloads:
+      - os:
+          linux: Linux
+          macos: Darwin
+          windows: Windows
+        cpu:
+          x86_64: x86_64
+          arm_64: arm64
+        url: https://github.com/google/yamlfmt/releases/download/v${version}/yamlfmt_${version}_${os}_${cpu}.tar.gz
+tools:
+  definitions:
+    - name: yamlfmt
+      download: yamlfmt
+      shims: [yamlfmt]
+      known_good_version: 0.13.0
+lint:
+  definitions:
+    - name: yamlfmt
+      files: [yaml]
+      description: A formatter yaml files
+      commands:
+        - name: format
+          output: rewrite
+          run: yamlfmt ${target}
+          success_codes: [0]
+          in_place: true
+          formatter: true
+          batch: true
+      tools: [yamlfmt]
+      suggest_if: files_present
+      known_good_version: 0.13.0
+      version_command:
+        parse_regex: ${semver}
+        run: yamlfmt -version
+      direct_configs:
+        - .yamlfmt.yaml
+        - .yamlfmt.yml
+        - yamlfmt.yaml
+        - yamlfmt.yml
