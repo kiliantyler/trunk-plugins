@@ -1,0 +1,8 @@
+version: 0.1
+required_trunk_version: ">=1.22.2-beta.5"
+
+environments:
+  - name: SYSTEM
+    environment:
+      - name: PATH
+        list: ["${env.PATH:-}"]
