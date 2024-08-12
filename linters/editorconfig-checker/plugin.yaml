@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://static.trunk.io/pub/trunk-yaml-schema.json
+version: 0.1
+tools:
+  definitions:
+  - name: editorconfig-checker
+    runtime: go
+    package: github.com/editorconfig-checker/editorconfig-checker/v3/cmd/editorconfig-checker
+    shims: [editorconfig-checker]
+    known_good_version: 3.0.3
+  enabled:
+  - editorconfig-checker@3.0.3
+lint:
+  definitions:
+  - name: editorconfig-checker
+    files: [ALL]
+    tools: [editorconfig-checker]
+    description: Compares all files against the .editorconfig file
+    # version_command: editorconfig-checker --version
+    commands:
+    - name: lint
+      output: sarif
+      run: editorconfig-checker -f gcc -no-color ${target}
+      success_codes: [0,1]
+      read_output_from: stdout
+      batch: false
+      parser:
+        runtime: python
+        run: python3 ${cwd}/editorconfig-checker_to_serif.py
+    version_command:
+      parse_regex: ${semver}
+      run: editorconfig-checker --version
+    known_good_version: 3.0.3
+    direct_configs:
+    - .ecrc
